@@ -54,6 +54,101 @@ async function iniciarCamera() {
 }
 
 // Captura frame e envia para API
+async function enviarFrame2() {
+
+    if (validacaoRealizada) return;
+
+    if (!video.videoWidth || !video.videoHeight) {
+        alert("A câmera ainda não está pronta.");
+        return;
+    }
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+    const imagemBase64 = canvas.toDataURL(
+        "image/jpeg",
+        0.8
+    );
+
+    try {
+
+        btnEntrar.disabled = true;
+        btnEntrar.textContent = "Validando...";
+        mostrarLoading();
+
+        const response = await fetch(
+            "http://127.0.0.1:5000/verificar-face",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    imagem: imagemBase64
+                })
+            }
+        );
+
+        const resultado = await response.json();
+
+        console.log(resultado);
+
+        if (resultado.autorizado) {
+
+            validacaoRealizada = true;
+
+            esconderLoading();
+
+            abrirModal("Acesso liberado!");
+
+            
+            const dataHora = capturarDataHora();
+            console.log(dataHora);
+            window.location.href = "https://syscall-entrada-saida.vercel.app/"
+
+
+            btnEntrar.disabled = false;
+            btnEntrar.textContent = "Posicione seu rosto dentro da câmera e clique em Entrar";
+
+            //window.location.href = "home.html";
+
+        } else {
+
+            esconderLoading();
+            abrirModal("Face não reconhecida. Tente novamente.");
+            btnEntrar.textContent = "Tente Novamente";
+
+        }
+
+    } catch (erro) {
+
+        console.error("Erro ao validar rosto:", erro);
+        alert("Erro ao validar rosto.");
+
+    } finally {
+
+        esconderLoading();
+        if (!validacaoRealizada) {
+            btnEntrar.disabled = false;
+        }
+
+    }
+}
+
+
+
+// Captura frame e envia para API
 async function enviarFrame() {
 
     if (validacaoRealizada) return;
