@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconhecimento Facial</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h1>Reconhecimento Facial</h1>
+
+            <p>
+                Posicione seu rosto dentro da câmera e clique em
+                <strong>Entrar</strong>.
+            </p>
+
+            <div class="camera-container">
+                <video id="video" autoplay></video>
+            </div>
+
+            <canvas id="canvas"></canvas>
+
+            <button id="btnEntrar" onclick="enviarFrame()">
+                Entrar com reconhecimento facial
+            </button>
+
+        </div>
+
+    </div>
+              <div id="loading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Validando reconhecimento facial...</p>
+    </div>
+
+    <div id="modal" class="modal">
+    <div class="modal-content">
+        <span id="fecharModal">&times;</span>
+        <p id="mensagemModal"></p>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
