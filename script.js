@@ -111,9 +111,13 @@ async function enviarFrame() {
             esconderLoading();
 
             abrirModal("Acesso liberado!");
+
+            
             const dataHora = capturarDataHora();
             console.log(dataHora);
+            window.location.href = "https://syskall-sistema-biblioteca.vercel.app/"
 
+            
             btnEntrar.disabled = false;
             btnEntrar.textContent = "Posicione seu rosto dentro da câmera e clique em Entrar";
 
